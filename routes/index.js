@@ -28,7 +28,7 @@ router.get('/thelist', function(req, res){
   var url = 'process.env.MONGODB_URI'
 
   // Connect to the server
-  MongoClient.connect(url, function (err, db) {
+  MongoClient.connect(process.env.MONGODB_URI, function (err, db) {
   if (err) {
     console.log('Unable to connect to the Server', err);
   } else {
