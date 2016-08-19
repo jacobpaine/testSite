@@ -6,6 +6,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongodb = require("mongodb");
+var ObjectID = mongodb.ObjectID;
+var CONTACTS_COLLECTION = "contacts";
+
+var db;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
