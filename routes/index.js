@@ -25,7 +25,7 @@ router.get('/thelist', function(req, res){
 
   // Define where the MongoDB server is
   // var url = 'mongodb://localhost:27017/testSite';
-  var url = 'process.env.MONGODB_URI'
+  // var url = 'process.env.MONGODB_URI'
 
   // Connect to the server
   MongoClient.connect(process.env.MONGODB_URI, function (err, db) {
