@@ -1,0 +1,7 @@
+{
+	"name": "mean_mon",
+	"version": "0.0.7",
+	"dependencies": {
+  	"angular": "~1.5.8"
+  }
+}
