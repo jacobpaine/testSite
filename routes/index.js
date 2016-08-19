@@ -28,7 +28,8 @@ router.get('/thelist', function(req, res){
   var url = process.env.MONGODB_URI
 
   // Connect to the server
-  MongoClient.connect(process.env.MONGODB_URI, function (err, db) {
+  MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
+      db = database;
   if (err) {
     console.log('Unable to connect to the Server', err);
   } else {
@@ -79,8 +80,15 @@ function handleError(res, reason, message, code) {
  *    POST: creates a new contact
  */
 
-router.get("/contacts", function(req, res) {
-});
+ router.get("/contacts", function(req, res) {
+   db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
+     if (err) {
+       handleError(res, err.message, "Failed to get contacts.");
+     } else {
+       res.status(200).json(docs);
+     }
+   });
+ });
 
 router.post("/contacts", function(req, res) {
   var newContact = req.body;
