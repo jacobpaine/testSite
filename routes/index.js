@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var mongodb = require("mongodb");
+var CONTACTS_COLLECTION = "contacts";
 
 /* GET home page. */
 // Defines the root route. router.get receives a path and a function
