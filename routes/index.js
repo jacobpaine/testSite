@@ -55,6 +55,8 @@ router.get('/thelist', function(req, res){
       //Close connection
       db.close();
     });
+
+
   }
   });
 });
