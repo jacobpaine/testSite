@@ -22,7 +22,7 @@ angular.module("contactsApp", ['ngRoute'])
                 controller: "RoomsController",
                 templateUrl: "rooms.html",
                 resolve: {
-                contacts: function(Rooms) {
+                rooms: function(Rooms) {
                     return Rooms.getRooms();
                 }
             })
