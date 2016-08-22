@@ -53,17 +53,17 @@ router.get('/', function(req, res, next) {
 router.get('/thelist', function(req, res){
 
   // Get a Mongo client to work with the Mongo server
-  var MongoClient = mongodb.MongoClient;
+  // var MongoClient = mongodb.MongoClient;
 
   // Define where the MongoDB server is
   // var url = 'mongodb://localhost:27017/testSite';
   // var url = process.env.MONGODB_URI
 
   // Get the documents collection
-  var collection = db.collection('students');
+  // var collection = db.collection('students');
 
   // Find all students
-  collection.find({}).toArray(function (err, result) {
+  db.collection('students').find({}).toArray(function (err, result) {
     if (err) {
       res.send(err);
     } else if (result.length) {
