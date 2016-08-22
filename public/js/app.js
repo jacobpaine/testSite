@@ -18,6 +18,10 @@ angular.module("contactsApp", ['ngRoute'])
                 controller: "EditContactController",
                 templateUrl: "contact.html"
             })
+            .when("/rooms", {
+                controller: "RoomsController",
+                templateUrl: "rooms.html"
+            })
             .otherwise({
                 redirectTo: "/"
             })
@@ -115,4 +119,12 @@ angular.module("contactsApp", ['ngRoute'])
         $scope.deleteContact = function(contactId) {
             Contacts.deleteContact(contactId);
         }
-    });
+    })
+
+.controller("RoomsController", function($scope, $routeParams, Contacts) {
+  Contacts.getContact($routeParams.contactId).then(function(doc) {
+      $scope.contact = doc.data;
+  }, function(response) {
+      alert(response);
+  });
+});

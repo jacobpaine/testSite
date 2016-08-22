@@ -29,18 +29,25 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/rooms', function(req, res, next) {
-    res.render('index', { title: 'Rooms' });
+  // res.render('index', { title: 'Rooms' });
+  // Find all students
+  db.collection("rooms").find({}).toArray(function(err, docs) {
+    if (err) {
+      handleError(res, err.message, "Failed to get rooms.");
+    } else {
+      res.status(200).json(docs);
+    }
+  });
 });
 
-router.get('/thelist', function(req, res){
 
+router.get('/thelist', function(req, res){
   // Find all students
   db.collection('students').find({}).toArray(function (err, result) {
     if (err) {
       res.send(err);
     } else if (result.length) {
       res.render('studentlist',{
-
         // Pass the returned database documents to Jade
         "studentlist" : result
       });
@@ -50,16 +57,7 @@ router.get('/thelist', function(req, res){
   });
 });
 
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-
-
 // CONTACTS API ROUTES BELOW
-
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);
