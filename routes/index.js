@@ -3,6 +3,7 @@ var router = express.Router();
 var mongodb = require("mongodb");
 var CONTACTS_COLLECTION = "contact";
 var url = process.env.MONGODB_URI
+var MongoClient = mongodb.MongoClient;
 
 /* GET home page. */
 // Defines the root route. router.get receives a path and a function
