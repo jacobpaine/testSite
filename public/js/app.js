@@ -25,6 +25,7 @@ angular.module("contactsApp", ['ngRoute'])
                 rooms: function(Rooms) {
                     return Rooms.getRooms();
                 }
+              }
             })
             .otherwise({
                 redirectTo: "/"
