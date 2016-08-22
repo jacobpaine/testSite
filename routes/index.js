@@ -14,7 +14,6 @@ var MongoClient = mongodb.MongoClient;
 // render says to use the views/index.jade file for the layout
 // and to set the value for title to 'Express'
 
-// ** EXPERIMENTAL SECTION START
 // Connect to the server
 MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
     db = database;
@@ -24,43 +23,16 @@ if (err) {
   // We are connected
   console.log('Connection established to', url);
 
-  // // Get the documents collection
-  // var collection = db.collection('students');
-  //
-  // // Find all students
-  // collection.find({}).toArray(function (err, result) {
-  //   if (err) {
-  //     res.send(err);
-  //   } else if (result.length) {
-  //     res.render('studentlist',{
-  //
-  //       // Pass the returned database documents to Jade
-  //       "studentlist" : result
-  //     });
-  //   } else {
-  //     res.send('No documents found');
-  //   }
-  //   //Close connection
-  //   // db.close();
-  // });
-
-
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/rooms', function(req, res, next) {
+    res.render('index', { title: 'Rooms' });
+});
+
 router.get('/thelist', function(req, res){
-
-  // Get a Mongo client to work with the Mongo server
-  // var MongoClient = mongodb.MongoClient;
-
-  // Define where the MongoDB server is
-  // var url = 'mongodb://localhost:27017/testSite';
-  // var url = process.env.MONGODB_URI
-
-  // Get the documents collection
-  // var collection = db.collection('students');
 
   // Find all students
   db.collection('students').find({}).toArray(function (err, result) {
@@ -75,47 +47,7 @@ router.get('/thelist', function(req, res){
     } else {
       res.send('No documents found');
     }
-    //Close connection
-    // db.close();
   });
-
-
-
-
-
-  // PREVIOUS WORKING CONNECTION
-  // // Connect to the server
-  // MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
-  //     db = database;
-  // if (err) {
-  //   console.log('Unable to connect to the Server', err);
-  // } else {
-  //   // We are connected
-  //   console.log('Connection established to', url);
-  //
-  //   // Get the documents collection
-  //   var collection = db.collection('students');
-  //
-  //   // Find all students
-  //   collection.find({}).toArray(function (err, result) {
-  //     if (err) {
-  //       res.send(err);
-  //     } else if (result.length) {
-  //       res.render('studentlist',{
-  //
-  //         // Pass the returned database documents to Jade
-  //         "studentlist" : result
-  //       });
-  //     } else {
-  //       res.send('No documents found');
-  //     }
-  //     //Close connection
-  //     db.close();
-  //   });
-  //
-  //
-  // }
-  // });
 });
 
 
@@ -182,11 +114,8 @@ router.delete("/contacts/:id", function(req, res) {
 });
 
 
-// ** EXPERIMENTAL END
 }
 });
-//** EXPERIMENTAL END
-//**********************************************
 
 
 module.exports = router;
