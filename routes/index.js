@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var mongodb = require("mongodb");
 var CONTACTS_COLLECTION = "contact";
-var url = process.env.MONGODB_URI
+var ROOMS_COLLECTION = "rooms";
+
+var url = process.env.MONGODB_URI || "mongodb://localhost:27017/testSite"
 var MongoClient = mongodb.MongoClient;
 
 /* GET home page. */
@@ -15,7 +17,7 @@ var MongoClient = mongodb.MongoClient;
 // and to set the value for title to 'Express'
 
 // Connect to the server
-MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
+MongoClient.connect(url, function (err, database) {
     db = database;
 if (err) {
   console.log('Unable to connect to the Server', err);
@@ -25,19 +27,7 @@ if (err) {
 
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-router.get('/rooms', function(req, res, next) {
-  // res.render('index', { title: 'Rooms' });
-  // Find all students
-  db.collection("rooms").find({}).toArray(function(err, docs) {
-    if (err) {
-      handleError(res, err.message, "Failed to get rooms.");
-    } else {
-      res.status(200).json(docs);
-    }
-  });
+  res.render('index', { title: 'Root' });
 });
 
 
@@ -69,6 +59,17 @@ function handleError(res, reason, message, code) {
  *    POST: creates a new contact
  */
 
+ router.get("/rooms", function(req, res, next) {
+   db.collection(ROOMS_COLLECTION).find({}).toArray(function(err, docs) {
+     if (err) {
+       handleError(res, err.message, "Failed to get rooms.");
+     } else {
+       res.status(200).json(docs);
+     }
+   });
+ });
+
+
  router.get("/contacts", function(req, res) {
    db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
      if (err) {
@@ -78,6 +79,7 @@ function handleError(res, reason, message, code) {
      }
    });
  });
+
 
 router.post("/contacts", function(req, res) {
   var newContact = req.body;

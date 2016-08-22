@@ -1,14 +1,25 @@
 angular.module("contactsApp", ['ngRoute'])
     .config(function($routeProvider) {
         $routeProvider
+            // .when("/", {
+            //     templateUrl: "list.html",
+            //     controller: "ListController",
+            //     resolve: {
+            //         contacts: function(Contacts) {
+            //           console.log("contacts resolve happens");
+            //             return Contacts.getContacts();
+            //         }
+            //     }
+            // })
             .when("/", {
-                templateUrl: "list.html",
-                controller: "ListController",
-                resolve: {
-                    contacts: function(Contacts) {
-                        return Contacts.getContacts();
-                    }
+              templateUrl: "rooms_list.html",
+              controller: "RoomsController",
+              resolve: {
+                rooms: function(RoomsService) {
+                  console.log("rooms resolve happens");
+                  return RoomsService.getRooms();
                 }
+              }
             })
             .when("/new/contact", {
                 controller: "NewContactController",
@@ -18,20 +29,12 @@ angular.module("contactsApp", ['ngRoute'])
                 controller: "EditContactController",
                 templateUrl: "contact.html"
             })
-            .when("/rooms", {
-                controller: "RoomsController",
-                templateUrl: "rooms.html",
-                resolve: {
-                rooms: function(Rooms) {
-                    return Rooms.getRooms();
-                }
-              }
-            })
             .otherwise({
                 redirectTo: "/"
             })
     })
-    .service("Rooms", function($http) {
+    .service("RoomsService", function($http) {
+      console.log("RoomsService is getting used");
         this.getRooms = function() {
             return $http.get("/rooms").
                 then(function(response) {
@@ -40,8 +43,14 @@ angular.module("contactsApp", ['ngRoute'])
                     alert("Error finding rooms.");
                 });
         }
+
+        this.getRoom = function(room) {
+          console.log("Room ID?", room);
+        }
     })
     .service("Contacts", function($http) {
+      console.log("The Contacts service is getting used");
+
         this.getContacts = function() {
             return $http.get("/contacts").
                 then(function(response) {
@@ -61,6 +70,7 @@ angular.module("contactsApp", ['ngRoute'])
         }
         this.getContact = function(contactId) {
             var url = "/contacts/" + contactId;
+            console.log("contactId", contactId);
             return $http.get(url).
                 then(function(response) {
                     return response;
@@ -70,7 +80,7 @@ angular.module("contactsApp", ['ngRoute'])
         }
         this.editContact = function(contact) {
             var url = "/contacts/" + contact._id;
-            console.log(contact._id);
+            console.log("edit contact id", contact._id);
             return $http.put(url, contact).
                 then(function(response) {
                     return response;
@@ -135,11 +145,8 @@ angular.module("contactsApp", ['ngRoute'])
             Contacts.deleteContact(contactId);
         }
     })
-
-.controller("RoomsController", function($scope, $routeParams, Rooms) {
-  Contacts.getContact($routeParams.contactId).then(function(doc) {
-      $scope.rooms = rooms.data;
-  }, function(response) {
-      alert(response);
-  });
-});
+    .controller("RoomsController", ['RoomsService', function(rooms, $scope) {
+        console.log("Rooms Controller online");
+        console.log("rooms param", rooms);
+        // $scope.rooms = rooms.data;
+    }]);
