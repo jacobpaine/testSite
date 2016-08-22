@@ -20,11 +20,25 @@ angular.module("contactsApp", ['ngRoute'])
             })
             .when("/rooms", {
                 controller: "RoomsController",
-                templateUrl: "rooms.html"
+                templateUrl: "rooms.html",
+                resolve: {
+                contacts: function(Rooms) {
+                    return Rooms.getRooms();
+                }
             })
             .otherwise({
                 redirectTo: "/"
             })
+    })
+    .service("Rooms", function($http) {
+        this.getRooms = function() {
+            return $http.get("/rooms").
+                then(function(response) {
+                    return response;
+                }, function(response) {
+                    alert("Error finding rooms.");
+                });
+        }
     })
     .service("Contacts", function($http) {
         this.getContacts = function() {
@@ -121,9 +135,9 @@ angular.module("contactsApp", ['ngRoute'])
         }
     })
 
-.controller("RoomsController", function($scope, $routeParams, Contacts) {
+.controller("RoomsController", function($scope, $routeParams, Rooms) {
   Contacts.getContact($routeParams.contactId).then(function(doc) {
-      $scope.contact = doc.data;
+      $scope.rooms = rooms.data;
   }, function(response) {
       alert(response);
   });
