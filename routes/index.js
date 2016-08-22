@@ -23,10 +23,10 @@ if (err) {
   console.log('Connection established to', url);
 
   // Get the documents collection
-  var students = db.collection('students');
+  var collection = db.collection('students');
 
   // Find all students
-  students.find({}).toArray(function (err, result) {
+  collection.find({}).toArray(function (err, result) {
     if (err) {
       res.send(err);
     } else if (result.length) {
@@ -39,7 +39,7 @@ if (err) {
       res.send('No documents found');
     }
     //Close connection
-    // db.close();
+    db.close();
   });
 
 
