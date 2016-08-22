@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongodb = require("mongodb");
 var CONTACTS_COLLECTION = "contact";
+var url = process.env.MONGODB_URI
 
 /* GET home page. */
 // Defines the root route. router.get receives a path and a function
@@ -22,6 +23,41 @@ if (err) {
   // We are connected
   console.log('Connection established to', url);
 
+  // // Get the documents collection
+  // var collection = db.collection('students');
+  //
+  // // Find all students
+  // collection.find({}).toArray(function (err, result) {
+  //   if (err) {
+  //     res.send(err);
+  //   } else if (result.length) {
+  //     res.render('studentlist',{
+  //
+  //       // Pass the returned database documents to Jade
+  //       "studentlist" : result
+  //     });
+  //   } else {
+  //     res.send('No documents found');
+  //   }
+  //   //Close connection
+  //   // db.close();
+  // });
+
+
+
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
+router.get('/thelist', function(req, res){
+
+  // Get a Mongo client to work with the Mongo server
+  var MongoClient = mongodb.MongoClient;
+
+  // Define where the MongoDB server is
+  // var url = 'mongodb://localhost:27017/testSite';
+  // var url = process.env.MONGODB_URI
+
   // Get the documents collection
   var collection = db.collection('students');
 
@@ -39,23 +75,12 @@ if (err) {
       res.send('No documents found');
     }
     //Close connection
-    db.close();
+    // db.close();
   });
 
 
 
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
-router.get('/thelist', function(req, res){
-
-  // Get a Mongo client to work with the Mongo server
-  var MongoClient = mongodb.MongoClient;
-
-  // Define where the MongoDB server is
-  // var url = 'mongodb://localhost:27017/testSite';
-  var url = process.env.MONGODB_URI
 
   // PREVIOUS WORKING CONNECTION
   // // Connect to the server
