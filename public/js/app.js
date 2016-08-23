@@ -29,6 +29,17 @@ angular.module("contactsApp", ['ngRoute'])
                 controller: "EditContactController",
                 templateUrl: "contact.html"
             })
+            // route for the rooms pages
+            .when('/rooms/:roomId', {
+              templateUrl : 'rooms/rooms_temp.html',
+              controller  : 'MoveController',
+              resolve: {
+                rooms: function(RoomsService) {
+                  console.log("rooms resolve happens");
+                  return RoomsService.getRooms();
+                }
+              }
+            })
             .otherwise({
                 redirectTo: "/"
             })
@@ -44,14 +55,22 @@ angular.module("contactsApp", ['ngRoute'])
                 });
         }
 
-        this.getRoom = function(room) {
-          console.log("Room ID?", room);
+        this.getRoom = function(roomId) {
+          var url = "/rooms/" + roomId;
+          console.log("roomId", roomId);
+          return $http.get(url).
+              then(function(response) {
+                  return response;
+              }, function(response) {
+                  alert("Error finding this contact.");
+              });
         }
     })
     .service("Contacts", function($http) {
       console.log("The Contacts service is getting used");
 
         this.getContacts = function() {
+          console.log("getContacts happens");
             return $http.get("/contacts").
                 then(function(response) {
                     return response;
@@ -69,6 +88,7 @@ angular.module("contactsApp", ['ngRoute'])
                 });
         }
         this.getContact = function(contactId) {
+          console.log("getContact happens");
             var url = "/contacts/" + contactId;
             console.log("contactId", contactId);
             return $http.get(url).
@@ -100,6 +120,12 @@ angular.module("contactsApp", ['ngRoute'])
                 });
         }
     })
+    .controller("MoveController", function($scope, $routeParams, rooms)  {
+      $scope.room_id = $routeParams.roomId;
+      $scope.rooms = rooms.data;
+      $scope.room_num = parseInt($routeParams.roomId, 10);
+    })
+
     .controller("ListController", function(contacts, $scope) {
         $scope.contacts = contacts.data;
     })
@@ -145,8 +171,8 @@ angular.module("contactsApp", ['ngRoute'])
             Contacts.deleteContact(contactId);
         }
     })
-    .controller("RoomsController", ['RoomsService', function(rooms, $scope) {
+    .controller("RoomsController", function(rooms, $scope) {
         console.log("Rooms Controller online");
         console.log("rooms param", rooms);
-        // $scope.rooms = rooms.data;
-    }]);
+        $scope.rooms = rooms.data;
+    });

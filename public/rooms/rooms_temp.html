@@ -1,0 +1,27 @@
+<h2>Room #{{ room_id }}</h2>
+
+Here are the details for room_id <b>#{{ room_id }}</b>.
+<br>
+  <div ng-repeat="room in rooms">
+    <div ng-if="room.roomName == 'room' + room_num">
+      <div class="exits" ng-if="room.exit.north">
+        <p> North <a href="#rooms/{{ room_num + 10 }}">{{ room_num + 10 }}</a></p>
+      </div>
+      <div class="exits" ng-if="room.exit.south">
+        <p> South <a href="#rooms/{{ room_num - 10 }}">{{ room_num - 10 }}</a></p>
+      </div>
+      <div class="exits" ng-if="room.exit.east">
+        <p> East <a href="#rooms/{{ room_num + 1 }}">{{ room_num + 1 }}</a></p>
+      </div>
+      <div class="exits" ng-if="room.exit.west">
+        <p> West <a href="#rooms/{{ room_num - 1 }}">{{ room_num - 1 }}</a></p>
+      </div>
+      <p id="roomName">roomName: {{ room.roomName }}</p>
+      <p id="roomLong">roomLong: {{ room.long_desc }}</p>
+  </div>
+</div>
+<hr>
+
+<hr>
+{{ rooms }}
+<hr>

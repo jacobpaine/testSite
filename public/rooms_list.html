@@ -13,9 +13,14 @@
   <div ng-repeat="room in rooms | orderBy:'roomName'">
     <p id="roomName"> {{ room.roomName }}</p>
     <p id="long_desc"> {{ room.long_desc }}</p>
-    <p id="roomID"> {{ room._id }}</p>
+    <!-- <p id="roomID"> {{ room._id }}</p> -->
+
+  <!-- <p> {{ rooms }} </p> -->
+    <!-- <button style="margin-top:20px" class="btn btn-default" ng-click="getRoom(room)">getrooms</button> -->
   </div>
 
-    <button style="margin-top:20px" class="btn btn-default" ng-click="getRoom(room)">getrooms</button>
-
+<hr>
+<a href="#rooms/1">one</a>
+<a href="#rooms/2">two</a>
+<a href="#rooms/3">three</a>
 </div>
