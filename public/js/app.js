@@ -120,10 +120,49 @@ angular.module("contactsApp", ['ngRoute'])
                 });
         }
     })
-    .controller("MoveController", function($scope, $routeParams, rooms)  {
+    .controller("MoveController", function($scope, $routeParams, rooms, $location)  {
       $scope.room_id = $routeParams.roomId;
       $scope.rooms = rooms.data;
+      var roomsData = rooms.data
+      var room_num = parseInt($routeParams.roomId, 10);
       $scope.room_num = parseInt($routeParams.roomId, 10);
+
+      // This controls all available directions in the entire game.
+      // The grid is plus/minus 1 horizontal & plus/minus 10 vertical.
+      // The grid must change for wider than 20 rooms across.
+      $scope.myFunc = function(text) {
+        var thisRoomNumber = $routeParams.roomId;
+        var northValue;
+        var southValue;
+        var eastValue;
+        var westValue;
+
+        for ( prop in roomsData ) {
+          // console.log("thing", roomsData[prop].roomName);
+          // console.log("north?", roomsData[prop].exit.north);
+          northValue = roomsData[prop].exit.north;
+          southValue = roomsData[prop].exit.south;
+          eastValue = roomsData[prop].exit.east;
+          westValue = roomsData[prop].exit.west;
+
+          console.log("westValue", westValue);
+          console.log("text", text);
+          if (text === 'north'){
+            console.log("this room", this);
+            var newRoom = (room_num + 10).toString();
+            $location.path('rooms/' + newRoom);
+          } else if (text === 'south'){
+            var newRoom = (room_num - 10).toString();
+            $location.path('rooms/' + newRoom);
+          } else if (text === 'east'){
+            var newRoom = (room_num + 1).toString();
+            $location.path('rooms/' + newRoom);
+          } else if (text === 'west'){
+            var newRoom = (room_num - 1).toString();
+            $location.path('rooms/' + newRoom);
+          }
+        }
+      };
     })
 
     .controller("ListController", function(contacts, $scope) {
@@ -175,4 +214,5 @@ angular.module("contactsApp", ['ngRoute'])
         console.log("Rooms Controller online");
         console.log("rooms param", rooms);
         $scope.rooms = rooms.data;
+
     });
