@@ -132,34 +132,30 @@ angular.module("contactsApp", ['ngRoute'])
       // The grid must change for wider than 20 rooms across.
       $scope.myFunc = function(text) {
         var thisRoomNumber = $routeParams.roomId;
-        var northValue;
-        var southValue;
-        var eastValue;
-        var westValue;
 
+        var thisCertainRoom;
         for ( prop in roomsData ) {
-          // console.log("thing", roomsData[prop].roomName);
-          // console.log("north?", roomsData[prop].exit.north);
-          northValue = roomsData[prop].exit.north;
-          southValue = roomsData[prop].exit.south;
-          eastValue = roomsData[prop].exit.east;
-          westValue = roomsData[prop].exit.west;
-
-          console.log("westValue", westValue);
-          console.log("text", text);
-          if (text === 'north'){
-            console.log("this room", this);
-            var newRoom = (room_num + 10).toString();
-            $location.path('rooms/' + newRoom);
-          } else if (text === 'south'){
-            var newRoom = (room_num - 10).toString();
-            $location.path('rooms/' + newRoom);
-          } else if (text === 'east'){
-            var newRoom = (room_num + 1).toString();
-            $location.path('rooms/' + newRoom);
-          } else if (text === 'west'){
-            var newRoom = (room_num - 1).toString();
-            $location.path('rooms/' + newRoom);
+          if (roomsData[prop].roomName === "room"+thisRoomNumber){
+            northValue = roomsData[prop].exit.north;
+            southValue = roomsData[prop].exit.south;
+            eastValue = roomsData[prop].exit.east;
+            westValue = roomsData[prop].exit.west;
+            if (text === 'north' && northValue === true){
+              // console.log("this room", this);
+              var newRoom = (room_num + 10).toString();
+              $location.path('rooms/' + newRoom);
+            } else if (text === 'south' && southValue === true){
+              var newRoom = (room_num - 10).toString();
+              $location.path('rooms/' + newRoom);
+            } else if (text === 'east' && eastValue === true){
+              var newRoom = (room_num + 1).toString();
+              $location.path('rooms/' + newRoom);
+            } else if (text === 'west' && westValue === true){
+              var newRoom = (room_num - 1).toString();
+              $location.path('rooms/' + newRoom);
+            } else {
+              console.log("You can't go that way.");
+            }
           }
         }
       };

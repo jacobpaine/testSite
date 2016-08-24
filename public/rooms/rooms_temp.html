@@ -7,19 +7,25 @@ Here are the details for room_id <b>#{{ room_id }}</b>.
       <p id="roomName">roomName: {{ room.roomName }}</p>
       <p id="roomLong">roomLong: {{ room.long_desc }}</p>
       <hr>
-      <div class="exits" ng-if="room.exit.north">
-        <p> North <a href="#rooms/{{ room_num + 10 }}">{{ room_num + 10 }}</a></p>
-      </div>
-      <div class="exits" ng-if="room.exit.south">
-        <p> South <a href="#rooms/{{ room_num - 10 }}">{{ room_num - 10 }}</a></p>
-      </div>
-      <div class="exits" ng-if="room.exit.east">
-        <p> East <a href="#rooms/{{ room_num + 1 }}">{{ room_num + 1 }}</a></p>
-      </div>
-      <div class="exits" ng-if="room.exit.west">
-        <p> West <a href="#rooms/{{ room_num - 1 }}">{{ room_num - 1 }}</a></p>
-      </div>
+      <p>The obvious exits are:</p>
+      <span class="exits" ng-if="room.exit.north">
+        <span> North</span>
+      </span>
+      <span class="exits" ng-if="room.exit.south">
+        <span>, South</span>
+      </span>
+      <span class="exits" ng-if="room.exit.east">
+        <span>, East</span>
+      </span>
+      <span class="exits" ng-if="room.exit.west">
+        <span>, West</span>
+      </span>
   </div>
 </div>
 <hr>
-<input type="text" ng-change="myFunc(text)" ng-model="text" />
+<!-- <input type="text" ng-change="myFunc(text)" ng-model="text" /> -->
+<form ng-submit="myFunc(text)">
+  Enter text and hit enter:
+  <input type="text" ng-model="text" name="text" autofocus/>
+  <input type="submit" id="submit" value="Submit" />
+</form>
