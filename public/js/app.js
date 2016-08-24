@@ -22,7 +22,7 @@ angular.module("contactsApp", ['ngRoute'])
             // route for the rooms pages
             .when("/", {
                 templateUrl: "rooms_list.html",
-                controller: "MoveController",
+                controller: "FrontPageController",
                 resolve: {
                     rooms: function(RoomsService) {
                         return RoomsService.getRooms();
@@ -119,6 +119,9 @@ angular.module("contactsApp", ['ngRoute'])
     //             });
     //     }
     // })
+    .controller("FrontPageController", function($scope, $routeParams, $location){
+
+    })
     .controller("MoveController", function($scope, $routeParams, rooms, $location)  {
       var roomsData = rooms.data;
       var room_num = parseInt($routeParams.roomId, 10);
