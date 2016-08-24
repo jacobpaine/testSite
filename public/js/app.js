@@ -132,29 +132,35 @@ angular.module("contactsApp", ['ngRoute'])
       // The grid must change for wider than 20 rooms across.
       $scope.myFunc = function(text) {
         var thisRoomNumber = $routeParams.roomId;
-
-        var thisCertainRoom;
         for ( prop in roomsData ) {
           if (roomsData[prop].roomName === "room"+thisRoomNumber){
+            // Find the directions in the database.
             northValue = roomsData[prop].exit.north;
             southValue = roomsData[prop].exit.south;
             eastValue = roomsData[prop].exit.east;
             westValue = roomsData[prop].exit.west;
-            if (text === 'north' && northValue === true){
-              // console.log("this room", this);
+            // Allows for same direction different commands.
+            var northCmd = 'north' && 'n';
+            var southCmd = 'south' && 's';
+            var eastCmd = 'east' && 'e';
+            var westCmd = 'west' && 'w';
+
+            if (text === northCmd && northValue === true){
               var newRoom = (room_num + 10).toString();
               $location.path('rooms/' + newRoom);
-            } else if (text === 'south' && southValue === true){
+            } else if (text === southCmd && southValue === true){
               var newRoom = (room_num - 10).toString();
+              console.log("south");
               $location.path('rooms/' + newRoom);
-            } else if (text === 'east' && eastValue === true){
+            } else if (text === eastCmd && eastValue === true){
               var newRoom = (room_num + 1).toString();
               $location.path('rooms/' + newRoom);
-            } else if (text === 'west' && westValue === true){
+            } else if (text === westCmd && westValue === true){
               var newRoom = (room_num - 1).toString();
               $location.path('rooms/' + newRoom);
             } else {
-              console.log("You can't go that way.");
+              $scope.gameMessage = "Bork!";
+              console.log("Bork!");
             }
           }
         }

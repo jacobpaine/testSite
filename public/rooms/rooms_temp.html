@@ -9,21 +9,21 @@ Here are the details for room_id <b>#{{ room_id }}</b>.
       <hr>
       <p>The obvious exits are:</p>
       <span class="exits" ng-if="room.exit.north">
-        <span> North</span>
+        <span> North </span>
       </span>
       <span class="exits" ng-if="room.exit.south">
-        <span>, South</span>
+        <span>South </span>
       </span>
       <span class="exits" ng-if="room.exit.east">
-        <span>, East</span>
+        <span>East </span>
       </span>
       <span class="exits" ng-if="room.exit.west">
-        <span>, West</span>
+        <span>West </span>
       </span>
   </div>
 </div>
 <hr>
-<!-- <input type="text" ng-change="myFunc(text)" ng-model="text" /> -->
+<p>{{ gameMessage }}</p>
 <form ng-submit="myFunc(text)">
   Enter text and hit enter:
   <input type="text" ng-model="text" name="text" autofocus/>
