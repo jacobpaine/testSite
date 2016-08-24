@@ -126,9 +126,12 @@ angular.module("contactsApp", ['ngRoute'])
       $scope.rooms = rooms.data;
       $scope.room_num = parseInt($routeParams.roomId, 10);
 
+      document.getElementById("primaryInputBox").focus();
+
       // This controls all available directions in the entire game.
       // The grid is plus/minus 1 horizontal & plus/minus 10 vertical.
       // The grid must change for wider than 20 rooms across.
+      // In other words, +100 or +1000 when moving north, etc.
       $scope.myFunc = function(text) {
         var thisRoomNumber = $routeParams.roomId;
         for ( prop in roomsData ) {
@@ -145,7 +148,7 @@ angular.module("contactsApp", ['ngRoute'])
             var southKey = (text === 'south' || text === 's');
             var eastKey = (text === 'east' || text === 'e');
             var westKey = (text === 'west' || text === 'w');
-
+            // If the input matches a possible direction from the database
             if (northKey && northValue === true){
               var newRoom = (room_num + 10).toString();
               $location.path('rooms/' + newRoom);
@@ -161,6 +164,8 @@ angular.module("contactsApp", ['ngRoute'])
             } else {
               $scope.gameMessage = "Bork!";
               console.log("Bork!");
+              // Clear the input on failure
+              document.getElementById("primaryInputBox").value=null;
             }
           }
         }
