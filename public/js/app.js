@@ -20,6 +20,15 @@ angular.module("contactsApp", ['ngRoute'])
             //     templateUrl: "contact.html"
             // })
             // route for the rooms pages
+            .when("/", {
+                templateUrl: "rooms_list.html",
+                controller: "MoveController",
+                resolve: {
+                    rooms: function(RoomsService) {
+                        return RoomsService.getRooms();
+                    }
+                }
+            })
             .when('/rooms/:roomId', {
               templateUrl : 'rooms/rooms_temp.html',
               controller  : 'MoveController',
