@@ -130,50 +130,85 @@ angular.module("contactsApp", ['ngRoute'])
       $scope.room_num = parseInt($routeParams.roomId, 10);
 
       document.getElementById("primaryInputBox").focus();
-
-      // This controls all available directions in the entire game.
-      // The grid is plus/minus 1 horizontal & plus/minus 10 vertical.
-      // The grid must change for wider than 20 rooms across.
-      // In other words, +100 or +1000 when moving north, etc.
-      $scope.myFunc = function(text) {
+      // This receives all input in the primaryInputBox
+      $scope.inputFunc = function(text) {
         var thisRoomNumber = $routeParams.roomId;
         for ( prop in roomsData ) {
           if (roomsData[prop].roomName === "room"+thisRoomNumber){
 
+            // This controls all available directions in the entire game.
+            // The grid is plus/minus 1 horizontal & plus/minus 10 vertical.
+            // The grid must change for wider than 20 rooms across.
+            // In other words, +100 or +1000 when moving north, etc.
+
+            // It also controls all the items in a room desc.
+            // Likely the directions will be thrown into arrays later.
+
             // Find the directions in the database.
-            northValue = roomsData[prop].exit.north;
-            southValue = roomsData[prop].exit.south;
-            eastValue = roomsData[prop].exit.east;
-            westValue = roomsData[prop].exit.west;
+            var northValue = roomsData[prop].exit.north;
+            var southValue = roomsData[prop].exit.south;
+            var eastValue = roomsData[prop].exit.east;
+            var westValue = roomsData[prop].exit.west;
 
             //Alternate keys for same directions
             var northKey = (text === 'north' || text === 'n');
             var southKey = (text === 'south' || text === 's');
             var eastKey = (text === 'east' || text === 'e');
             var westKey = (text === 'west' || text === 'w');
-            // If the input matches a possible direction from the database
+            var lookKey = ("look" || "l");
+            // Error handling for blanks.
+            if (text === undefined){
+              text = " ";
+              $scope.gameMessage = "What are you trying to do?";
+              return;
+            }
+            var splitCmd = text.split(' ');
+            var cmdKey = splitCmd[0];
+            // Syntax handling for prepositions
+            // For 'look bear'
+            if (splitCmd[1] !== "at"){
+              var objectKey = splitCmd[1];
+            // For 'look at bear'
+            } else if (splitCmd[2] !== "the"){
+              var objectKey = splitCmd[2];
+            // For 'look at the bear'
+            } else {
+              var objectKey = splitCmd[3];
+            }
+
+
+              // If the input matches a possible direction from the database
             if (northKey && northValue === true){
               var newRoom = (room_num + 10).toString();
               $location.path('rooms/' + newRoom);
+              return;
             } else if (southKey && southValue === true){
               var newRoom = (room_num - 10).toString();
               $location.path('rooms/' + newRoom);
+              return;
             } else if (eastKey && eastValue === true){
               var newRoom = (room_num + 1).toString();
               $location.path('rooms/' + newRoom);
+              return;
             } else if (westKey && westValue === true){
               var newRoom = (room_num - 1).toString();
               $location.path('rooms/' + newRoom);
+              return;
+            } else if ((cmdKey === lookKey) && objectKey ) {
+              $scope.gameMessage = roomsData[prop].item[objectKey];
+              return;
             } else {
-              $scope.gameMessage = "Bork!";
-              console.log("Bork!");
-              // Clear the input on failure
+              $scope.gameMessage = "You can't do that.";
+              console.log("HERE!");
               document.getElementById("primaryInputBox").value=null;
+              return;
+            }
+
+              // Clear the input on failure
             }
           }
         }
-      };
-    })
+      });
 
     // .controller("ListController", function(contacts, $scope) {
     //     $scope.contacts = contacts.data;
